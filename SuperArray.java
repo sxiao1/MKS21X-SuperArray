@@ -81,6 +81,31 @@ public class SuperArray{
 		}
 		newdata = data;
 	}
+	public boolean isEmpty(){
+		String element = "";
+		for(int x = 0; x < data.length; x++){
+			if (data[x] != null){
+				element = data[x];
+			}
+		}
+		if (element.equals("")){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	public void add(int index, String element){
+		if(index >= data.length|| index < 0){
+			System.out.println("error");
+		}
+		if(data.length == size){
+			resize();
+		}
+		for(int x = index + 1; x < data.length; x++){
+			data[x] = data[x-1];
+		}
+	}
 	public boolean contains(String target){
 		for(int x = 0; x < data.length; x++){
 			if (data[x] == target){
@@ -89,21 +114,50 @@ public class SuperArray{
 		}
 		return false;
 	}
-	/*public int indexOf(String target){
+	public int indexOf(String target){
+		int index = data.length;
+		int tempindex = 0;
 		for(int x = 0; x < data.length; x++){
 			if (data[x] == target){
-				return x;
+				tempindex = x;
 			}
-		}
-	}
-	public int lastIndexOf(String target){
-		int index;
-		for(int x = 0; x < data.length; x++){
-			if (data[x]== target){
-				index = x;
+			if(tempindex < index){
+				tempindex = index;
 			}
 		}
 		return index;
-	} */
-
+	}
+	public int lastIndexOf(String target){
+		int index = -1;
+		int tempindex = 0; 
+		for(int x = 0; x < data.length; x++){
+			if (data[x]== target){
+				tempindex = x;
+			}
+			if(tempindex > index){
+				index = tempindex;
+			}
+		}
+		return index;
+	} 
+	public String remove(int index){
+		String element = data[index];
+		if (index >= data.length || index < 0){
+			return "error";
+		}
+		for(int x = index; x < data.length - 1; x++){
+			data[x] = data[x+1];
+		}
+		return element;
+	}
+	public boolean remove(String element){
+		int index = indexOf(element);
+		if (index == data.length){
+			return false;
+		}
+		for(int x = index; index < data.length - 1; x++){
+			data[x] = data[x + 1];
+		}
+		return true;
+	}
 }
