@@ -4,8 +4,12 @@ public class SuperArray{
 	public SuperArray(){
 		data = new String[10];
 	}
-	public SuperArray(int x){
-		data = new String[x];
+	public SuperArray(int initialCapacity){
+		if (initialCapacity < 0){
+			throw new IllegalArgumentException();
+		}
+		data = new String [initialCapacity];
+		size = 0;
 	}
 	public void clear(){
 		data = new String[0];
@@ -15,15 +19,15 @@ public class SuperArray{
 		return size;
 	}
 	public String get(int index){
-		if(data.length == 0|| index < 0 || index > data.length - 1){
-			return "null";
+		if(index < 0 || index >= size){
+			throw new IndexOutOfBoundsException();
 		}
 		String s = data[index];
 		return s;
 	}
 	public String set(int index, String element){
 		if(index < 0 || index >= size){
-			return null;
+			throw new IndexOutOfBoundsException();
 		}
 		String s = data[index];
 		data[index] = element;
@@ -73,7 +77,7 @@ public class SuperArray{
 	}
 	public void add(int index, String element){
 		if(index >= data.length|| index < 0){
-			System.out.println("error");
+			throw new IndexOutOfBoundsException();
 		}
 		for(int x = size - index + 1; x > index; x--){
 			if(data.length == size){
@@ -103,11 +107,14 @@ public class SuperArray{
 				index = tempindex;
 			}
 		}
+		if(index == data.length){
+			return -1;
+		}
 		return index;
 	}
 	public int lastIndexOf(String target){
 		int index = -1;
-		int tempindex = 0;
+		int tempindex = -2;
 		for(int x = 0; x < data.length; x++){
 			if (data[x]== target){
 				tempindex = x;
@@ -120,20 +127,22 @@ public class SuperArray{
 	}
 	public String remove(int index){
 		String element = data[index];
-		if (index >= data.length || index < 0){
-			return "error";
+		if (index == -1){
+			throw new IndexOutOfBoundsException();
 		}
 		for(int x = index; x < data.length - 1; x++){
 			data[x] = data[x+1];
 		}
+		size --;
 		return element;
 	}
 	public boolean remove(String element){
 		int index = indexOf(element);
-		if (index == data.length){
+		if (index >= data.length || index < 0){
 			return false;
 		}
-		for(int x = index; index < data.length - 1; x++){
+		size --;
+		for(int x = index; x < size; x++){
 			data[x] = data[x + 1];
 		}
 		return true;
