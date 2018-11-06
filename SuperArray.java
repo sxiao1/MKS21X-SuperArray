@@ -66,7 +66,7 @@ public class SuperArray{
 		return (data[size - 1] == newstr);
 	}
 	public void resize(){
-		SuperArray newary = new SuperArray(data.length * 2);
+		SuperArray newary = new SuperArray(data.length * 2+1);
 		for (int x = 0; x < data.length; x++){
 			newary.data[x] = data[x];
 		}
@@ -76,13 +76,13 @@ public class SuperArray{
 		return (size == 0);
 	}
 	public void add(int index, String element){
-		if(index >= data.length|| index < 0){
+		if(index > size|| index < 0){
 			throw new IndexOutOfBoundsException();
 		}
-		for(int x = size - index + 1; x > index; x--){
-			if(data.length == size){
+		if(data.length == size){
 				resize();
-			}
+		}
+		for(int x = size; x > index; x--){
 			data[x] = data[x-1];
 		}
 		size ++;
